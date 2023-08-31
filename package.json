@@ -1,0 +1,23 @@
+{
+  "name": "graphql-start",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jaeha-playground/graphql-start.git",
+  "author": "Jaeha Lee <wogkdkrm112@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/main.ts",
+    "dev": "nodemon --exec ts-node src/main.ts"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^16.8.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
