@@ -6,12 +6,52 @@ const app = express();
 
 const schema = buildSchema(`
   type Query {
-    description: String
+    posts: [Post]
+    comments: [Comment]
+  }
+
+  type Post {
+    id: ID!
+    title: String!
+    description: String!
+    comments: [Comment]
+  }
+
+  type Comment {
+    id: ID!
+    text: String!
+    likes: Int
   }
 `);
 
 const root = {
-  description: 'hello world',
+  posts: [
+    {
+      id: 'post1',
+      title: 'first post',
+      description: 'first post description',
+      comments: [
+        {
+          id: 'comment1',
+          text: 'first comment',
+          likes: 1,
+        },
+      ],
+    },
+    {
+      id: 'post2',
+      title: 'second post',
+      description: 'second post description',
+      comments: [],
+    },
+  ],
+  comments: [
+    {
+      id: 'comment1',
+      text: 'first comment',
+      likes: 1,
+    },
+  ],
 };
 app.use(
   '/graphql',
