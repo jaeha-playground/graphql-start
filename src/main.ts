@@ -2,9 +2,7 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { loadFilesSync } from '@graphql-tools/load-files';
-
-import graphqlPostsModel from './posts/posts.model';
-import graphqlCommentsModel from './comments/comments.model';
+import path from 'path';
 
 const app = express();
 
@@ -12,36 +10,23 @@ const app = express();
 const loadedTypes = loadFilesSync('**/*', {
   extensions: ['graphql'],
 });
+const loadedResolvers = loadFilesSync(path.join(__dirname, '**/*.resolvers.ts'));
 
 const schema = makeExecutableSchema({
   typeDefs: loadedTypes,
-  resolvers: {
-    Query: {
-      posts: async (parent, args, context, info) => {
-        console.log('parent>>', parent);
-        console.log('args>>', args);
-        console.log('context>>', context);
-        console.log('info>>', info);
-        const product = await Promise.resolve(parent.posts);
-        return product;
-      },
-      comments: async (parent) => {
-        const comment = await Promise.resolve(parent.comments);
-        return comment;
-      },
-    },
-  },
+  resolvers: loadedResolvers,
 });
 
-const root = {
-  posts: graphqlPostsModel,
-  comments: graphqlCommentsModel,
-};
+// const root = {
+//   posts: graphqlPostsModel,
+//   comments: graphqlCommentsModel,
+// };
+
 app.use(
   '/graphql',
   graphqlHTTP({
     schema,
-    rootValue: root,
+    // rootValue: root,
     graphiql: true,
   })
 );

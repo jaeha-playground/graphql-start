@@ -6,4 +6,8 @@ const graphqlCommentsModel = [
   },
 ];
 
-export default graphqlCommentsModel;
+const getAllComments = () => {
+  return graphqlCommentsModel;
+};
+
+export default getAllComments;
