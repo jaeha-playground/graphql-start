@@ -1,9 +1,12 @@
-import getAllComments from './comments.model';
+import commentsModel from './comments.model';
 
 const graphqlCommentsResolver = {
   Query: {
     comments: () => {
-      return getAllComments();
+      return commentsModel.getAllComments();
+    },
+    commentsByLikes: (_: any, args: any) => {
+      return commentsModel.getCommentsByLikes(args.minLikes);
     },
   },
 };

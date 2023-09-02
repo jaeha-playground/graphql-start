@@ -1,4 +1,4 @@
-import getAllPosts from './posts.model';
+import postsModel from './posts.model';
 
 const graphqlPostsResolver = {
   Query: {
@@ -8,7 +8,7 @@ const graphqlPostsResolver = {
       // console.log('context>>', context);
       // console.log('info>>', info);
 
-      return getAllPosts();
+      return postsModel.getAllPosts();
     },
   },
 };

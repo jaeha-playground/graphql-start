@@ -23,4 +23,8 @@ const getAllPosts = () => {
   return graphqlPostsModel;
 };
 
-export default getAllPosts;
+const postsModel = {
+  getAllPosts,
+};
+
+export default postsModel;
