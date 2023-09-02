@@ -10,6 +10,9 @@ const graphqlPostsResolver = {
 
       return postsModel.getAllPosts();
     },
+    post: (_: any, args: any) => {
+      return postsModel.getPostById(args.id);
+    },
   },
 };
 

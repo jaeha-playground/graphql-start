@@ -23,8 +23,11 @@ const getAllPosts = () => {
   return graphqlPostsModel;
 };
 
+const getPostById = (id: string) => graphqlPostsModel.find((post) => post.id === id);
+
 const postsModel = {
   getAllPosts,
+  getPostById,
 };
 
 export default postsModel;
