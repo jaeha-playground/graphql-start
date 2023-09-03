@@ -14,6 +14,12 @@ const graphqlPostsResolver = {
       return postsModel.getPostById(args.id);
     },
   },
+  Mutation: {
+    addNewPost: (_: any, args: any) => {
+      const { id, title, description } = args;
+      return postsModel.addNewPost(id, title, description);
+    },
+  },
 };
 
 export default graphqlPostsResolver;
