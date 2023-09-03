@@ -26,9 +26,21 @@ const getCommentsByLikes = (minLikes: number) => {
   });
 };
 
+const addNewComment = (id: string, text: string) => {
+  const newComment = {
+    id,
+    text,
+    likes: 0,
+  };
+
+  graphqlCommentsModel.push(newComment);
+  return newComment;
+};
+
 const commentsModel = {
   getAllComments,
   getCommentsByLikes,
+  addNewComment,
 };
 
 export default commentsModel;

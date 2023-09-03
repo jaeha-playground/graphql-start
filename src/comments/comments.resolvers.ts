@@ -9,6 +9,12 @@ const graphqlCommentsResolver = {
       return commentsModel.getCommentsByLikes(args.minLikes);
     },
   },
+  Mutation: {
+    addNewComment: (_: any, args: any) => {
+      const { id, text } = args;
+      return commentsModel.addNewComment(id, text);
+    },
+  },
 };
 
 export default graphqlCommentsResolver;
