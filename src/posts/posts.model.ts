@@ -19,4 +19,28 @@ const graphqlPostsModel = [
   },
 ];
 
-export default graphqlPostsModel;
+const getAllPosts = () => {
+  return graphqlPostsModel;
+};
+
+const getPostById = (id: string) => graphqlPostsModel.find((post) => post.id === id);
+
+const addNewPost = (id: string, title: string, description: string) => {
+  const newPost = {
+    id,
+    title,
+    description,
+    comments: [],
+  };
+
+  graphqlPostsModel.push(newPost);
+  return newPost;
+};
+
+const postsModel = {
+  getAllPosts,
+  getPostById,
+  addNewPost,
+};
+
+export default postsModel;
