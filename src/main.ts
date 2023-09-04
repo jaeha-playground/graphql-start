@@ -1,7 +1,12 @@
 import express from 'express';
 import path from 'path';
+import { json } from 'body-parser';
+import cors from 'cors';
+
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+
 import { loadFilesSync } from '@graphql-tools/load-files';
 
 const loadedTypes = loadFilesSync('**/*', {
@@ -20,7 +25,15 @@ const startApolloServer = async () => {
   const server = new ApolloServer({ schema });
 
   await server.start();
-  server.applyMiddleware({ app, path: '/graphql' });
+
+  app.use(
+    '/graphql',
+    cors(),
+    json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => ({ token: req.headers.token }),
+    })
+  );
 
   const PORT = 4000;
   app.listen(PORT, () => {
