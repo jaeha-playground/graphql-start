@@ -1,37 +1,33 @@
 import express from 'express';
-import { graphqlHTTP } from 'express-graphql';
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import { loadFilesSync } from '@graphql-tools/load-files';
 import path from 'path';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { ApolloServer } from 'apollo-server-express';
+import { loadFilesSync } from '@graphql-tools/load-files';
 
-const app = express();
-
-// .graphql로 끝나는 모든파일 불러오기
 const loadedTypes = loadFilesSync('**/*', {
   extensions: ['graphql'],
 });
 const loadedResolvers = loadFilesSync(path.join(__dirname, '**/*.resolvers.ts'));
 
-const schema = makeExecutableSchema({
-  typeDefs: loadedTypes,
-  resolvers: loadedResolvers,
-});
+const startApolloServer = async () => {
+  const app = express();
 
-// const root = {
-//   posts: graphqlPostsModel,
-//   comments: graphqlCommentsModel,
-// };
+  const schema = makeExecutableSchema({
+    typeDefs: loadedTypes,
+    resolvers: loadedResolvers,
+  });
 
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema,
-    // rootValue: root,
-    graphiql: true,
-  })
-);
+  const server = new ApolloServer({ schema });
 
-const PORT = 4000;
-app.listen(PORT, async () => {
-  console.log(`Server is running on http://localhost:${PORT}/graphql`);
-});
+  await server.start();
+  server.applyMiddleware({ app, path: '/graphql' });
+
+  const PORT = 4000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}/graphql`);
+  });
+};
+
+// .graphql로 끝나는 모든파일 불러오기
+
+startApolloServer();
